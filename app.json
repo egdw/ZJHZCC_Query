@@ -1,0 +1,31 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/absenteeism/absenteeism"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "杭商班长联席会",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "borderStyle": "white",
+    "list": [
+      {
+        "selectedIconPath": "images/学习_sel.png",
+        "iconPath": "images/学习_nor.png",
+        "pagePath": "pages/index/index",
+        "text": "自习教室"
+      },
+      {
+        "selectedIconPath": "images/未出勤.png",
+        "iconPath": "images/未出勤_1.png",
+        "pagePath": "pages/absenteeism/absenteeism",
+        "text": "缺勤记录"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<view class="container">
+
+
+<view class='main_page'>
+<import src="../../towxml/entry.wxml" />
+  <template is="entry" data="{{...article}}" />
+</view>
+ 
+ <view id="floatView">
+     <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+      <image id='float_img' src='../../images/float.png'></image>
+      </picker>
+  </view>
+
+
+<view id='myfoot'>
+  <text>©洪德衍and室友</text>
+</view>
+</view>
