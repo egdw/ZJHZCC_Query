@@ -1,5 +1,5 @@
 var Bmob = require('bmob.js');
-Bmob.initialize("b001875923e72bf2f8e5b362c0a641cc", "2ab716c99df6d29d7db7c9b63e8a7957");
+Bmob.initialize("6f98898341f7328bd38e708289c7836b", "7979d5a5467bc8b3b80a77ccb44de034");
 
 /**
  * 通过登录获取当前用户的班级和学院
@@ -33,6 +33,7 @@ function login(userId) {
 function getAllMessage() {
   return new Promise((resolve, reject) => {
     const query = Bmob.Query('school_class');
+    query.order("-createdAt");
     query.find().then(res => {
       if (res[0] == null || res[0] == undefined) {
         resolve({
@@ -61,6 +62,7 @@ function getAllMessage() {
 function getAllAbsenteeismMessage() {
   return new Promise((resolve, reject) => {
     const query = Bmob.Query('absenteeism');
+    query.order("-createdAt");
     query.find().then(res => {
       if (res[0] == null || res[0] == undefined) {
         resolve({
@@ -85,7 +87,7 @@ function getAllAbsenteeismMessage() {
 
 
 /**
- * 获取所有班级的自习信息
+ * 获取班级的自习信息
  */
 function getMessageByName(className) {
   return new Promise((resolve, reject) => {
@@ -110,7 +112,7 @@ function getMessageByName(className) {
 }
 
 /**
- * 获取所有缺勤的信息
+ * 获取缺勤的信息
  */
 function getAbsenteeismMessageByName(className) {
   return new Promise((resolve, reject) => {

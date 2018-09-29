@@ -11,39 +11,58 @@ Page({
   onShow: function () {
     var self = this;
     wx.getStorage({
-      key: 'myabs',
-      success: function (res) {
-        wx.showLoading({
-          title: '加载中..',
+      key: 'lastFresh2',
+      success: function(res) {
+        if (((new Date()).valueOf() - parseInt(res.data)) / 1000 > 10) {
+          //十秒内不能多次刷新
+          wx.getStorage({
+            key: 'myabs',
+            success: function (res) {
+              wx.showLoading({
+                title: '加载中..',
+              })
+              database.getAbsenteeismMessageByName(res.data).then(function (data) {
+                if (data.result == null || data.result == undefined) {
+                  wx.showToast({
+                    title: '获取数据错误',
+                    icon: 'none'
+                  })
+                } else {
+                  let markdown = app.towxml.toJson(data.result.message, 'markdown');
+                  data.theme = 'dark';
+                  self.setData({
+                    article: markdown
+                  });
+                }
+                wx.setStorage({
+                  key: 'lastFresh2',
+                  data: (new Date()).valueOf(),
+                })
+                wx.hideLoading();
+              })
+            }, fail: function () {
+              wx.showToast({
+                title: '还没有选择分院!',
+                icon: 'none'
+              })
+            }
+          })
+        }
+      },fail:function(){
+        wx.setStorage({
+          key: 'lastFresh2',
+          data: (new Date() - 100000).valueOf(),
         })
-        database.getAbsenteeismMessageByName(res.data).then(function (data) {
-          if (data.result == null || data.result == undefined) {
-            wx.showToast({
-              title: '获取数据错误',
-              icon: 'none'
-            })
-          } else {
-          let markdown = app.towxml.toJson(data.result.message, 'markdown');
-          data.theme = 'dark';
-          self.setData({
-            article: markdown
-          });
-          }
-          wx.hideLoading();
-        })
-      }, fail: function () {
-        wx.showToast({
-          title: '还没有选择分院!',
-          icon: 'none'
-        })
+        self.onShow();
       }
     })
+    
   },
 
   onShareAppMessage: function () {
     return {
-      title: '杭商院想快速查询缺勤?用这个!',
-      desc: '杭商院想快速查询缺勤?用这个!',
+      title: '在杭商院想快速查询缺勤?用这个!',
+      desc: '在杭商院想快速查询缺勤?用这个!',
       path: 'pages/absenteeism/absenteeism'
     }
   }, changeClass: function () {
@@ -81,6 +100,12 @@ Page({
       self.setData({
         selectd2: newClass
       });
+      wx.removeStorage({
+        key: 'lastFresh2',
+        success: function (res) {
+          self.onShow();
+        },
+      })
       self.onShow();
     }
 
