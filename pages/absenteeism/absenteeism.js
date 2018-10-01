@@ -5,7 +5,7 @@ const app = getApp()
 Page({
 
   data: {
-    article: {}
+    article: {},
   },
 
   onShow: function () {
@@ -13,8 +13,8 @@ Page({
     wx.getStorage({
       key: 'lastFresh2',
       success: function(res) {
-        if (((new Date()).valueOf() - parseInt(res.data)) / 1000 > 10) {
-          //十秒内不能多次刷新
+        if (((new Date()).valueOf() - parseInt(res.data)) / 1000 > 20) {
+          //二十秒内不能多次刷新
           wx.getStorage({
             key: 'myabs',
             success: function (res) {
@@ -109,7 +109,7 @@ Page({
       self.onShow();
     }
 
-  }, onLoad: function () {
+  }, onLoad: function (option) {
     this.changeClass();
   }
 })

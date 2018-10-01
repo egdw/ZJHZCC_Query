@@ -16,7 +16,8 @@ Page({
     wx.getStorage({
       key: 'lastFresh',
       success: function(res) {
-        if (((new Date()).valueOf() - parseInt(res.data))/1000 > 10){
+        if (((new Date()).valueOf() - parseInt(res.data))/1000 > 20){
+          //二十秒不能再刷新数据了
           wx.getStorage({
             key: 'myclass',
             success: function (res) {
@@ -24,6 +25,7 @@ Page({
                 title: '加载中..',
               })
               database.getMessageByName(res.data).then(function (data) {
+                console.log(res.data)
                 if (data.result == null || data.result == undefined) {
                   wx.showToast({
                     title: '获取数据错误',
@@ -40,8 +42,8 @@ Page({
                   key: 'lastFresh',
                   data: (new Date()).valueOf(),
                 })
-                wx.hideLoading();
               })
+              wx.hideLoading();
             },
             fail: function () {
               wx.showToast({
@@ -77,7 +79,6 @@ Page({
           array: arr,
           data_get_complete: true
         });
-        self.onShow();
       }
     })
   }, bindPickerChange: function (e) {
@@ -99,7 +100,7 @@ Page({
     }
 
   }, onLoad: function () {
-    this.changeClass();
+    
   },
   /**
    * 用户点击右上角分享
@@ -112,6 +113,8 @@ Page({
     }
   },
   modalinput: function () {
+    //从服务器获取数据
+    this.changeClass();
     this.setData({
       hiddenmodalput: !this.data.hiddenmodalput
     })
@@ -128,6 +131,14 @@ Page({
     this.setData({
       hiddenmodalput: true
     })
+    if (this.data.searchInput == ""){
+      //判断是否输入的为空
+      wx.showToast({
+        title: '不能输入为空!',
+        icon:'none'
+      })
+      return;
+    }
     wx.showLoading({
       title: '搜索中..',
     })
@@ -160,13 +171,13 @@ Page({
         break;
       }
     }
-    if (!flag){
-        wx.showToast({
-          title: '没有找到班级',
-          icon:'none'
-        })
-    }
     wx.hideLoading();
+    if (!flag) {
+      wx.showToast({
+        title: '没有找到班级',
+        icon: 'none'
+      })
+    }
   },
   userInput: function (e) {
     this.setData({

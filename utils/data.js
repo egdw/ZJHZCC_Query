@@ -2,39 +2,16 @@ var Bmob = require('bmob.js');
 Bmob.initialize("6f98898341f7328bd38e708289c7836b", "7979d5a5467bc8b3b80a77ccb44de034");
 
 /**
- * 通过登录获取当前用户的班级和学院
- */
-function login(userId) {
-  return new Promise((resolve, reject) => {
-    const query = Bmob.Query('mUser');
-    query.equalTo("openid", "==", userId);
-    query.find().then(res => {
-      if (res[0] == null || res[0] == undefined) {
-        resolve({
-          result: null
-        })
-      } else {
-        resolve({
-          result: res[0]
-        })
-      }
-    }).catch(err => {
-      resolve({
-        result: null
-      })
-    })
-  })
-}
-
-
-/**
  * 获取所有班级的自习信息
  */
 function getAllMessage() {
   return new Promise((resolve, reject) => {
     const query = Bmob.Query('school_class');
     query.order("-createdAt");
+    // 去除无用的数据返回,节省流量
+    query.select("class_name");
     query.find().then(res => {
+      console.log(res)
       if (res[0] == null || res[0] == undefined) {
         resolve({
           result: null
@@ -63,7 +40,10 @@ function getAllAbsenteeismMessage() {
   return new Promise((resolve, reject) => {
     const query = Bmob.Query('absenteeism');
     query.order("-createdAt");
+    // 去除无用的数据返回,节省流量
+    query.select("branch_courts");
     query.find().then(res => {
+      console.log(res)
       if (res[0] == null || res[0] == undefined) {
         resolve({
           result: null
