@@ -100,7 +100,7 @@ Page({
     }
 
   }, onLoad: function () {
-    
+    this.onShow();
   },
   /**
    * 用户点击右上角分享
@@ -158,9 +158,6 @@ Page({
           key: 'isSave',
           data: true,
         })
-        self.setData({
-          searchInput:''
-        })
         wx.removeStorage({
           key: 'lastFresh',
           success: function(res) {
@@ -182,6 +179,12 @@ Page({
   userInput: function (e) {
     this.setData({
       searchInput: e.detail.value.toLowerCase().replace(/\s+/g, "")
+    })
+  },
+  talkMySelf:function(){
+    wx.showToast({
+      title: '合作请联系:计科18c_洪德衍_QQ:378759617',
+      icon:'none'
     })
   }
 })

@@ -111,5 +111,11 @@ Page({
 
   }, onLoad: function (option) {
     this.changeClass();
+  },
+  talkMySelf: function () {
+    wx.showToast({
+      title: '合作请联系:计科18c_洪德衍_QQ:378759617',
+      icon: 'none'
+    })
   }
 })

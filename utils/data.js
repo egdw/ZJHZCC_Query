@@ -11,7 +11,6 @@ function getAllMessage() {
     // 去除无用的数据返回,节省流量
     query.select("class_name");
     query.find().then(res => {
-      console.log(res)
       if (res[0] == null || res[0] == undefined) {
         resolve({
           result: null
@@ -43,7 +42,6 @@ function getAllAbsenteeismMessage() {
     // 去除无用的数据返回,节省流量
     query.select("branch_courts");
     query.find().then(res => {
-      console.log(res)
       if (res[0] == null || res[0] == undefined) {
         resolve({
           result: null
